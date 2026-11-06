@@ -342,7 +342,8 @@ const LS = 'rabmandor.v1';
 function today() { return new Date().toISOString().slice(0, 10); }
 function newProyek() { return { id: 'P' + Date.now().toString(36), nama: '', client: '', tanggal: today(), oh: 0, ppn: 0, items: [], defs: {} }; }
 
-let S = { gas: '', pin: '', sak: 50, prices: {}, custom: [], sheetItems: [], proyek: newProyek(), saved: [], remote: [], std: 'SNI2008', sel: '', vol: '' };
+const DEFAULT_GAS = 'https://script.google.com/macros/s/AKfycby1QQxjAaOj4F3qw0yL9h9Bxgr0qc0OfmTx14vhMzZJ-RtKHvcL5LD4oawFW69lh3gO/exec';
+let S = { gas: DEFAULT_GAS, pin: '', sak: 50, prices: {}, custom: [], sheetItems: [], proyek: newProyek(), saved: [], remote: [], std: 'SNI2008', sel: '', vol: '' };
 let ED = null;      // item yang sedang diedit di editor
 let _cache = null;
 
@@ -350,6 +351,7 @@ function load() {
   try {
     const raw = localStorage.getItem(LS);
     if (raw) { const o = JSON.parse(raw); S = Object.assign(S, o); S.remote = []; }
+    if (!S.gas) S.gas = DEFAULT_GAS;
   } catch (e) { /* abaikan */ }
 }
 function save() {
